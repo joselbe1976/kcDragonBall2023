@@ -10,19 +10,15 @@ public func configure(_ app: Application) throws {
 
   //  app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
  
-    //PostGree
-    
-    if let databaseURL = Environment.get("DATABASE_URL"), var postgresConfig = PostgresConfiguration(url: databaseURL) {
-        postgresConfig.tlsConfiguration = .forClient(certificateVerification: .none)
-        app.databases.use(.postgres(
-            configuration: postgresConfig
-        ), as: .psql)
-    } else {
-        
-        app.databases.use(.postgres(hostname: "ec2-34-233-214-228.compute-1.amazonaws.com", port: 5432, username: "xpbmiqzjbtqomr", password: "a02e20293d4f02afe5a6cb4073577e0b779de84c2eafa5e73f7e0974147e90af", database: "d9s1n4l072ofsm", tlsConfiguration: .forClient(certificateVerification: .none)), as: .psql)
-    }
-    
-    
+    //PostgreSQL
+    app.databases.use(.postgres(
+        hostname: Environment.get("DATABASE_HOST"),
+        port: Int(Environment.get("DATABASE_PORT")),
+        username: Environment.get("DATABASE_USER"),
+        password: Environment.get("DATABASE_PASS"),
+        database: Environment.get("DATABASE_NAME"),
+        tlsConfiguration: .forClient(certificateVerification: .none)
+    ), as: .psql)    
     
     //Aqui las migraciones MOdelo datos
     app.migrations.add(Bootcamps_v1())
