@@ -11,12 +11,16 @@ public func configure(_ app: Application) throws {
   //  app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
  
     //PostgreSQL
+    
+    
+    
+    
     app.databases.use(.postgres(
-        hostname: Environment.get("DATABASE_HOST"),
-        port: Int(Environment.get("DATABASE_PORT")),
-        username: Environment.get("DATABASE_USER"),
-        password: Environment.get("DATABASE_PASS"),
-        database: Environment.get("DATABASE_NAME"),
+        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
+        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:))  ??  5432,
+        username: Environment.get("DATABASE_USER") ?? "vapor_user",
+        password: Environment.get("DATABASE_PASS") ?? "vapor_pass",
+        database: Environment.get("DATABASE_NAME") ?? "vapor_dbname",
         tlsConfiguration: .forClient(certificateVerification: .none)
     ), as: .psql)    
     
