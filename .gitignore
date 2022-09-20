@@ -169,4 +169,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,vapor,linux,macos,windows
+
+# App config
 .env
+
+# PostgreSQL data
+.db_data 
