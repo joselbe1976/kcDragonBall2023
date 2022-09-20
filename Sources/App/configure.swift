@@ -8,16 +8,12 @@ public func configure(_ app: Application) throws {
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-  //  app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
+    //  app.databases.use(.sqlite(.file("db.sqlite")), as: .sqlite)
  
     //PostgreSQL
-    
-    
-    
-    
     app.databases.use(.postgres(
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:))  ??  5432,
+        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ??  5432,
         username: Environment.get("DATABASE_USER") ?? "vapor_user",
         password: Environment.get("DATABASE_PASS") ?? "vapor_pass",
         database: Environment.get("DATABASE_NAME") ?? "vapor_dbname",
@@ -42,7 +38,7 @@ public func configure(_ app: Application) throws {
     app.passwords.use(.bcrypt)
     
     //JWT Config
-    app.jwt.signers.use(.hs256(key: "2022KeepCoding2022"))
+    app.jwt.signers.use(.hs256(key: Environment.get("SECRET_KEY") ?? "5AE6160D-8E77-4B7D-9A25-BB0900B057FB"))
     
     
     // register routes
